@@ -1,0 +1,50 @@
+.LoginContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 70vh;
+}
+
+.Login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+
+    height: 40vh;
+    width: 40vw;
+
+    background-color: rgba(250, 250, 250, .3);
+    backdrop-filter: blur(.35rem);
+    border-radius: 8px;
+
+    box-shadow: 0 0 10px rgba(80, 80, 80, .3);
+}
+
+button.login-submit-btn{
+    background-color: rgba(180, 40, 140, 1);
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    width: 100px;
+}
+
+div.login-toggle-bar {
+    display: flex;
+    flex-direction: row;
+    width: 40vw;
+    height: 2rem;
+
+}
+
+div.login-tab {
+    width: 50%;
+    cursor: pointer;
+    line-height: 2rem;
+}
+
+div.login-tab:hover {
+    color: blue;
+
+}
