@@ -28,7 +28,7 @@ class LoginContainer extends React.Component {
     handleSubmit = (e) => {
         
         e.preventDefault()
-        fetch('http://localhost:3001/user', {
+        fetch('http://localhost:3001/users', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

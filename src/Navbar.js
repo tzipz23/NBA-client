@@ -20,9 +20,9 @@ class Navbar extends React.Component {
                     {/* <Link to='/'><img style={{height: '3rem', width: '3rem'}} src={logo} alt='logo'/></Link> */}
                 </div>
                 <ul className='Navbar-menu'>
-                    <li className='Navbar-menu-item'><Link to='/research'>Media</Link></li>
-                    <li className='Navbar-menu-item'><Link to='/search'>Teams</Link></li>
-                    <li className='Navbar-menu-item'><Link to='/search'>Profile</Link></li>
+                    <li className='Navbar-menu-item'><Link to='/articles'>Media</Link></li>
+                    <li className='Navbar-menu-item'><Link to='/team'>Teams</Link></li>
+                    <li className='Navbar-menu-item'><Link to='/profile'>Profile</Link></li>
                 </ul>
                 <div className='Navbar-avatar'>
                     <Link to='/user'>avatar</Link>
