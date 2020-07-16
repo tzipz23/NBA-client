@@ -7,8 +7,8 @@ class UserInfo extends Component {
     constructor() {
         super()
         this.state = {
-            tags: [],
-            tag: "",
+            // tags: [],
+            // tag: "",
             user_id: 0
         }
     }
@@ -35,7 +35,7 @@ class UserInfo extends Component {
         
         return(
             <div>
-                <h2>Your Search Tags</h2>
+                <h2>Edit Your Information</h2>
                     <div>
                         
                     </div>

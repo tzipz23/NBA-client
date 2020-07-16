@@ -45,10 +45,33 @@ class App extends React.Component {
     })
   }
 
+  componentDidMount(){
+    this.getCurrentUser()
+  }
+
+  getCurrentUser = () => {
+    // check if token is valid and set state 
+    fetch(`http://localhost:3001/auth`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': localStorage.getItem('token')
+      }
+    })
+    .then(r => r.json() )
+    .then(data => {
+      if (data.user_id) {
+        this.setState({currentUser: data})
+      }
+      // console.log(data);
+    })
+  }
+
   render() {
   return (
     <div className="App">
-      <Navbar isLogged={!!this.state.currentUser} removeUser={this.removeUser}/>
+      <Navbar isLogged={!!this.state.currentUser} removeUser={this.removeUser} firstName={this.state.currentUser}/>
       {
         this.state.currentUser ?
         < Switch >
