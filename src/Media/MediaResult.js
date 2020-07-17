@@ -6,10 +6,12 @@ import './MediaResult.css'
 class MediaResult extends React.Component {
 
     render(){
+        
         return(
             <div>
                 <div>
-                    <Result />
+                {this.props.results.map( r => <Result key={r.id} result={r} /> )}
+                
 
                 </div>
             </div>

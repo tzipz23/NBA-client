@@ -7,6 +7,7 @@ import Navbar from './Navbar'
 import LoginContainer from './Login/LoginContainer'
 import Home from './Home/Home'
 import UserInfoContainer from './Account/UserInfoContainer'
+import Media from './Media/MediaContainer'
 
 
 class App extends React.Component {
@@ -80,9 +81,9 @@ class App extends React.Component {
             
           <Route exact path='/user' render={ () => < UserInfoContainer/>} />
                
-          {/* <Route exact path='/search' render={ () => < Media/>} />
+          <Route exact path='/articles' render={ () => < Media/>} />
         
-          <Route path='/research' render={ () =>   < Teams/> } />
+          {/* <Route path='/research' render={ () =>   < Teams/> } />
 
           <Route path='/research' render={ () =>   < Profile/> } /> */}
             

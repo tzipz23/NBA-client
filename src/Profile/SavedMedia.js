@@ -1,8 +1,7 @@
 import React from 'react'
 
 
-
-class ProfilePic extends React.Component {
+class SavedMedia extends React.Component {
 
     render(){
         
@@ -16,4 +15,4 @@ class ProfilePic extends React.Component {
 
 }
 
-export default ProfilePic
+export default SavedMedia
