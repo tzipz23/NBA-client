@@ -1,23 +1,29 @@
 import React from 'react'
 import {Switch, Route} from 'react-router-dom'
 import './TeamContainer.css'
-
 import TeamCards from './TeamCards'
 import TeamShowPage from './TeamShowPage'
 
 
+class TeamContainer extends React.Component {
+    state = {
+        teams: []
+    }
 
-
-
-class ProfileContainer extends React.Component {
+    componentDidMount(){
+        fetch("http://localhost:3001/teams")
+        .then(resp => resp.json())
+        .then(teamData => {
+            
+            this.setState({teams: teamData})
+        })
+    }
 
     render(){
         
         return(
         <div>
-            < TeamCards />
-            
-
+            < TeamCards teams={this.state.teams}/>
         </div>
         )
 
@@ -25,4 +31,4 @@ class ProfileContainer extends React.Component {
 
 }
 
-export default ProfileContainer
+export default TeamContainer

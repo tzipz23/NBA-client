@@ -2,7 +2,7 @@ import React from 'react'
 
 
 
-class SavedPlayers extends React.Component {
+class FavPlayers extends React.Component {
 
     render(){
         
@@ -16,4 +16,4 @@ class SavedPlayers extends React.Component {
 
 }
 
-export default SavedPlayers
+export default FavPlayers

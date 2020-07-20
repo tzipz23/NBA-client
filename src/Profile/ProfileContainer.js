@@ -5,8 +5,6 @@ import FavTeams from './FavTeams'
 import SavedMedia from './SavedMedia'
 
 
-
-
 class ProfileContainer extends React.Component {
 
     render(){

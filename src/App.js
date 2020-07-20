@@ -8,6 +8,8 @@ import LoginContainer from './Login/LoginContainer'
 import Home from './Home/Home'
 import UserInfoContainer from './Account/UserInfoContainer'
 import Media from './Media/MediaContainer'
+import Teams from './Teams/TeamContainer'
+import Profile from './Profile/ProfileContainer'
 
 
 class App extends React.Component {
@@ -25,6 +27,10 @@ class App extends React.Component {
 
   removeUser = () => {
     this.setState({currentUser: null})
+  }
+
+  componentDidMount(){
+    this.getCurrentUser()
   }
 
   componentDidMount(){
@@ -46,10 +52,7 @@ class App extends React.Component {
     })
   }
 
-  componentDidMount(){
-    this.getCurrentUser()
-  }
-
+  
   getCurrentUser = () => {
     // check if token is valid and set state 
     fetch(`http://localhost:3001/auth`, {
@@ -83,9 +86,9 @@ class App extends React.Component {
                
           <Route exact path='/articles' render={ () => < Media/>} />
         
-          {/* <Route path='/research' render={ () =>   < Teams/> } />
+          <Route path='/team' render={ () =>   < Teams/> } />
 
-          <Route path='/research' render={ () =>   < Profile/> } /> */}
+          <Route path='/profile' render={ () =>   < Profile/> } />
             
           <Route path='/' render={() =>      <div>
                                         404: Page not found 

@@ -32,7 +32,7 @@ class MediaContainer extends React.Component {
         })
         .then( r => r.json() )
         .then( data => {
-           
+        //    debugger
             this.setState({results: data.articles})
             
         })

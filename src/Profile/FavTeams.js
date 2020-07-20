@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-class SavedTeams extends React.Component {
+class FavTeams extends React.Component {
 
     render(){
         
@@ -15,4 +15,4 @@ class SavedTeams extends React.Component {
 
 }
 
-export default SavedTeams
+export default FavTeams
