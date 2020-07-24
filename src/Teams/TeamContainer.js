@@ -1,8 +1,7 @@
 import React from 'react'
-import {Switch, Route} from 'react-router-dom'
+// import {Switch, Route} from 'react-router-dom'
 import './TeamContainer.css'
-import TeamCards from './TeamCards'
-import TeamShowPage from './TeamShowPage'
+import TeamCardContainer from './TeamCardContainer'
 
 
 class TeamContainer extends React.Component {
@@ -23,7 +22,7 @@ class TeamContainer extends React.Component {
         
         return(
         <div>
-            < TeamCards teams={this.state.teams}/>
+            < TeamCardContainer teams={this.state.teams} favorPlayer={this.props.favs} favorTeam={this.props.favs} />
         </div>
         )
 
