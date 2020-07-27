@@ -69,12 +69,13 @@ class LoginContainer extends React.Component {
         })
         .then(r => r.json())
         .then(data => {
+            // debugger
             this.setState({form: {}})
             // ok thanks for the data, what is this data, part of it is the token. 
             // store the token locally on the user's (customer/client) browser
             if (data.token) {
                 localStorage.setItem('token', data.token)
-                this.props.setUser(data)
+                this.props.setUser(data.user)
                 return data.status
             }
             return console.log(data)
@@ -93,6 +94,7 @@ class LoginContainer extends React.Component {
             
                 { this.state.showingRegister ? < Register handleChange={this.handleChange} 
                             handleSubmit={this.handleSubmit}
+                            login = {this.props.loginUser}
                             form={this.state.form}/> 
                         : < Login handleChange={this.handleChange} 
                             handleSubmit={this.handleLoginSubmit}

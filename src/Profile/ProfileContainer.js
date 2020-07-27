@@ -4,19 +4,94 @@ import FavPlayers from './FavPlayers'
 import FavTeams from './FavTeams'
 import SavedMedia from './SavedMedia'
 import {Grid, Image, Icon, Button, Card, Segment, Modal, Header, Form} from 'semantic-ui-react'
+import swal from 'sweetalert';
+import './ProfileContainer.css'
+import MediaResult from '../Media/MediaResult'
 
 
 
 class ProfileContainer extends React.Component {
 
     state = {
-        name: this.props.user.name,
+        name: this.props.user.first_name,
         image: this.props.user.image,
         password: "",
         modalEditOpen: false,
         modalDeleteOpen: false,
+        articles: []
         
     }
+
+    componentDidMount(){
+        fetch("http://localhost:3001/user_articles")
+        .then(resp => resp.json())
+        .then(data => {
+          let filtered = data.filter(article => article.user.id === this.props.user.id)
+         
+          this.setState({articles: filtered})
+        })
+    }
+
+    changeProfileInfoState = (event) => {
+        this.setState({ [event.target.id]: event.target.value })
+    }
+
+    handleEditOpen = () => this.setState({ modalEditOpen: true })
+    handleEditClose = () => this.setState({ modalEditOpen: false })
+    handleDeleteOpen = () => this.setState({ modalDeleteOpen: true })
+    handleDeleteClose = () => this.setState({ modalDeleteOpen: false })
+
+    newProfileInfo = (event) => {
+        event.preventDefault()
+        const obj = {
+            name: this.state.name,
+            image: this.state.image
+        }
+        // debugger
+        fetch(`http://localhost:3001/user/index/${this.props.user.id}`, {
+            method: "PATCH",
+            headers: {"Content-Type": "application/json", "Accept": "application/json"},
+            body: JSON.stringify(obj)
+        })
+        .then(resp => resp.json())
+        .then(data => {
+        //   debugger
+          this.props.edit(data)})
+          this.setState({ modalOpen: false })
+          swal({
+            icon: "success",
+            text: "Profile Updated!"
+        })
+    }
+
+    deleteArticle = (title) => {
+        if (this.props.user !== null){
+            swal({
+                icon: "info",
+                text: "Article No Longer Saved"
+            })
+            const article = this.state.articles.find(article => article.title === title)
+            fetch(`http://localhost3001/user_articles/${article.id}`, {
+                method: "DELETE"
+            })
+            .then(resp => resp.json())
+            .then(data => {
+                // debugger
+                let filtered = this.state.articles.filter(article => article.title !== title)
+                this.setState({ articles: filtered })
+                swal({
+                    icon: "info",
+                    text: "Article No Longer Bookmarked"
+                })
+            })
+        } else {
+            swal({
+                icon: "info",
+                text: "Must Be Signed In To Bookmark Article!"
+            })
+        }
+    }
+
 
     render(){
         
@@ -31,17 +106,16 @@ class ProfileContainer extends React.Component {
                 <Grid columns={2} divided>
                     <Grid.Row stretched>
                     <Grid.Column className="profile-user-card">
-                            <Segment >
+                            <Segment tyle={{position: "fixed", zIndex:10}} >
                                 <Card className="profile-edit-button" centered="true" fluid="true" raised="false">
-                                    {/* <img alt="profile" src={this.props.user.avatar} wrapped ui={false} className="profile-user-image"/> */}
+                                    <img alt="profile" src={this.props.user.image} wrapped ui={false} className="profile-user-image"/>
+                                    
                                     <Card.Content>
-                                    <Card.Header>{this.props.user.name}</Card.Header>
+                                    <Card.Header>{this.props.user.user_name}</Card.Header>
                                     <Card.Meta>
-                                        <span className='date'>{this.props.user.email}</span>
+                        
                                     </Card.Meta>
-                                    {/* <Card.Description>
-                                        {this.props.user.name} loves playing basketball and soccer.
-                                    </Card.Description> */}
+                                    
                                     </Card.Content>
                                     <Card.Content extra>
                                     </Card.Content>
@@ -198,11 +272,11 @@ class ProfileContainer extends React.Component {
                     </Grid.Row>
                     {/* Bookmark Group */}
                     
-                    <Grid.Row className="profile-row-bookmarks">
+                    <Grid className="profile-row-bookmarks">
                         <div className="padding-bookmarks">
-                            {/* {this.state.bookmarks.length === 0 ? */}
-                            <Segment>
-                            <h1 style={{fontFamily: "Impact"}}> <u>Saved Articles</u> </h1>
+                            {this.state.articles.length === 0 ?
+                            <Segment >
+                            <h1 style={{fontFamily: "Impact"}}> <u>Comments</u> </h1>
                             <br />
                             <Grid>
                                 <Grid.Row columns={1}>
@@ -214,27 +288,28 @@ class ProfileContainer extends React.Component {
                                         <br />
                                         <br />
                                         <br />
-                                        <h1 style={{fontFamily: "Impact"}}> No Saved Articles</h1>
+                                        <h1 style={{fontFamily: "Impact"}}> No Current Comments</h1>
                                     </Grid.Column>
                                 </Grid.Row>
                             </Grid>
                             </Segment>
                             :
                             <div>
-                            {/* {this.state.bookmarks.map(mark => {
+                            {this.state.articles.map(article => {
                                 return(
                                     <div>
-                                        
+                                         <articles mark={article} key={article.id} unBookmark={this.deleteBookmark}/>
                                     </div>
                                 ) 
-                            })} */}
+                            })}
                             </div>
                             }
                         </div>
-                    </Grid.Row>
+                    </Grid>
               </Grid>
+              
             </div>
-
+            
 
 
         </div>
