@@ -1,12 +1,19 @@
 import React from 'react'
 import TeamShowPage from './TeamCard'
-import { Grid} from 'semantic-ui-react'
+import { Grid, Search} from 'semantic-ui-react'
 import TeamCard from './TeamCard'
 // import {Link, Route} from 'react-router-dom' 
 
 
 
 class TeamCardContainer extends React.Component {
+
+    state = {
+        teams: [],
+        searchTeams: this.props.players,
+        // filteredTeams: [],
+        search: ""
+    }
     
     render(){
 
@@ -16,6 +23,9 @@ class TeamCardContainer extends React.Component {
         return(
             
         <div>
+            <Grid.Column>
+                    <Search onSearchChange={this.onChangeSearch}/>
+            </Grid.Column>
             
             <Grid relaxed='very' columns={5}>
                 {this.props.teams.map(team => {

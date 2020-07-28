@@ -3,7 +3,7 @@ import ProfilePic from './ProfilePic'
 import FavPlayers from './FavPlayers'
 import FavTeams from './FavTeams'
 import SavedMedia from './SavedMedia'
-import {Grid, Image, Icon, Button, Card, Segment, Modal, Header, Form} from 'semantic-ui-react'
+import {Grid, Image, Icon, Button, Card, Segment, Modal, Header, Form, Menu} from 'semantic-ui-react'
 import swal from 'sweetalert';
 import './ProfileContainer.css'
 import MediaResult from '../Media/MediaResult'
@@ -18,9 +18,15 @@ class ProfileContainer extends React.Component {
         password: "",
         modalEditOpen: false,
         modalDeleteOpen: false,
-        articles: []
+        articles: [],
+        // followerList: [],
+        // followingList: []
+
+        activeItem: 'bio'
         
     }
+
+    handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
     componentDidMount(){
         fetch("http://localhost:3001/user_articles")
@@ -44,11 +50,11 @@ class ProfileContainer extends React.Component {
     newProfileInfo = (event) => {
         event.preventDefault()
         const obj = {
-            name: this.state.name,
+            // name: this.state.name,
             image: this.state.image
         }
         // debugger
-        fetch(`http://localhost:3001/user/index/${this.props.user.id}`, {
+        fetch(`http://localhost:3001/user/${this.props.user.id}`, {
             method: "PATCH",
             headers: {"Content-Type": "application/json", "Accept": "application/json"},
             body: JSON.stringify(obj)
@@ -64,33 +70,6 @@ class ProfileContainer extends React.Component {
         })
     }
 
-    deleteArticle = (title) => {
-        if (this.props.user !== null){
-            swal({
-                icon: "info",
-                text: "Article No Longer Saved"
-            })
-            const article = this.state.articles.find(article => article.title === title)
-            fetch(`http://localhost3001/user_articles/${article.id}`, {
-                method: "DELETE"
-            })
-            .then(resp => resp.json())
-            .then(data => {
-                // debugger
-                let filtered = this.state.articles.filter(article => article.title !== title)
-                this.setState({ articles: filtered })
-                swal({
-                    icon: "info",
-                    text: "Article No Longer Bookmarked"
-                })
-            })
-        } else {
-            swal({
-                icon: "info",
-                text: "Must Be Signed In To Bookmark Article!"
-            })
-        }
-    }
 
 
     render(){
@@ -103,21 +82,30 @@ class ProfileContainer extends React.Component {
             < SavedMedia />
 
             <div className="profile profile-background">
-                <Grid columns={2} divided>
+                <Grid columns={2} celled >
                     <Grid.Row stretched>
-                    <Grid.Column className="profile-user-card">
-                            <Segment tyle={{position: "fixed", zIndex:10}} >
-                                <Card className="profile-edit-button" centered="true" fluid="true" raised="false">
-                                    <img alt="profile" src={this.props.user.image} wrapped ui={false} className="profile-user-image"/>
+                    <Grid.Column className="profile-user-card" width={6} >
+                            <Segment  >
+                                <Card centered="true" fluid="true" raised="false" >
+                                    <Image alt="profile" src={this.props.user.image} wrapped ui={false} className="profile-user-image" />
                                     
                                     <Card.Content>
-                                    <Card.Header>{this.props.user.user_name}</Card.Header>
-                                    <Card.Meta>
-                        
-                                    </Card.Meta>
-                                    
+                                    <Card.Header>{this.props.user.user_name}</Card.Header> 
                                     </Card.Content>
                                     <Card.Content extra>
+                                    <Menu tabular>
+                                                    <Menu.Item
+                                                    name='Followers'
+                                                    active={this.state.activeItem === 'Followers'}
+                                                    onClick={this.handleItemClick}
+                                                    />
+                                                    <Menu.Item
+                                                    name='Following'
+                                                    active={this.state.activeItem === 'Following'}
+                                                    onClick={this.handleItemClick}
+                                                    />
+                                                </Menu>
+                                        Follower/ Following
                                     </Card.Content>
                                     {/* Edit Profile */}
                                     <Modal 
@@ -167,7 +155,7 @@ class ProfileContainer extends React.Component {
                             </Segment>
                     </Grid.Column>
                     {/* Second Column */}
-                    <Grid.Column> 
+                    <Grid.Column width={10} style={{height: '35%'}}> 
                     {/* <br /> */}
                     <Segment>
                     <h1 style={{fontFamily: "Impact"}}>Favorite Players</h1>
@@ -220,7 +208,7 @@ class ProfileContainer extends React.Component {
                     </Grid.Column>
                     <hr className="dividers hr-md-left-0"/>
                     {/* Column Three */}
-                    <Grid.Column>
+                    <Grid.Column width={10} style={{height: '35%'}}>
                         {/* <br /> */}
                         <Segment>
                         <h1 style={{fontFamily: "Impact"}}>Favorite Teams</h1>
@@ -272,7 +260,7 @@ class ProfileContainer extends React.Component {
                     </Grid.Row>
                     {/* Bookmark Group */}
                     
-                    <Grid className="profile-row-bookmarks">
+                    <Grid className="profile-row-bookmarks" >
                         <div className="padding-bookmarks">
                             {this.state.articles.length === 0 ?
                             <Segment >

@@ -29,7 +29,60 @@ class App extends React.Component {
     alreadyFollowed: [],
     displayed: 0,
     filteredPlayers: [],
-    savedArticles: []
+    followerList: [],
+    followingList: [],
+    savedArticles: [],
+    searchedUser: null,
+    searchedUserFollowingList: [],
+    searchedUserFollowerList: [],
+    searchedUserFavPlayers: [],
+    searchedUserFavTeams: [],
+    searchedUserFavoritePlayersIds: [],
+    searchedUserFavoriteTeamsIds: []
+
+  }
+
+  searchedUser = (user) => {
+
+    let id = user.id
+    // debugger
+    let userObj = {}
+    fetch(`http://localhost:3001/user/${id}`)
+    
+    .then(resp => resp.json())
+    .then(resp => {
+      // debugger
+      userObj['id'] = resp.id
+      userObj["username"] = resp.username
+      userObj["followers"] = resp.followed_by
+      userObj["following"] = resp.followers
+      let followingList = []
+      let followedList = []
+      let searchedUserFavoritePlayersIds = []
+      let searchedUserFavoriteTeamsIds = []
+      let searchedUserFavPlayers = []
+      let searchedUserFavTeams = []
+          resp.follows.forEach((user) => followingList.push(user.followed_id))
+          resp.followed_by.forEach((user) => followedList.push(user.follower_id))
+          resp.favoriteNbaPlayers.forEach((player) => searchedUserFavoritePlayersIds.push(player.id))
+          resp.favoriteNbaPlayers.forEach((player) => searchedUserFavPlayers.push(player))
+          resp.favoriteNbaPlayers.forEach((team) => searchedUserFavoriteTeamsIds.push(team.id))
+          resp.favoriteNbaPlayers.forEach((team) => searchedUserFavTeams.push(team))
+
+          this.setState({
+            searchedUserFollowingList: followingList,
+            searchedUserFollowerList: followedList,
+            searchedUser: userObj,
+            searchedUserFavoritePlayersIds: searchedUserFavoritePlayersIds,
+            searchedUserFavoriteTeamsIds: searchedUserFavoriteTeamsIds,
+            searchedUserFavoritePlayers: searchedUserFavPlayers,
+            searchedUserFavoriteTeams: searchedUserFavTeams
+
+          })
+
+    })
+
+
   }
 
   componentDidMount() {
@@ -251,7 +304,7 @@ handleDeleteFavoriteTeam = (id) => {
     return (
       <div className="App">
         {/* Nav Bar */}
-        <Navbar user={this.state.currentUser} logout={this.handleLogout} league={this.state.nbaLeague} teams={this.state.Nbateams}/>
+        <Navbar searchedUser={this.searchedUser} user={this.state.currentUser} logout={this.handleLogout} league={this.state.nbaLeague} teams={this.state.Nbateams}/>
         <br />
         <div className="main-container">
         <Switch>
@@ -276,7 +329,7 @@ handleDeleteFavoriteTeam = (id) => {
           this.state.currentUser === null || localStorage.length === 0 ?
           <Redirect to="/login"/>
           :
-          <Profile user={this.state.currentUser} edit={this.changeUserState} deleteProfile={this.deleteProfile} favsPlayers={this.state.favoritePlayers} favTeams={this.state.favoriteTeams} delete={this.findUserPlayer} deleteTeam={this.handleDeleteFavoriteTeam} articles={this.state.savedArticles}/>
+          <Profile user={this.state.currentUser} edit={this.changeUserState} deleteProfile={this.deleteProfile} favsPlayers={this.state.favoritePlayers} favTeams={this.state.favoriteTeams} delete={this.findUserPlayer} deleteTeam={this.handleDeleteFavoriteTeam} articles={this.state.savedArticles} followingList={this.state.followingList} followerList={this.state.followerList}/>
           )} />
           {/* SignUp */}
           <Route exact path='/signup' render={ () => (
@@ -290,7 +343,7 @@ handleDeleteFavoriteTeam = (id) => {
             // debugger
             return (
               <Route exact path={"/nba/teams/" + team.name} key={team.id} render={() => (
-                <TeamShowPage key={team.id} team={team} favs={this.favoriteNbaPlayer} filtered={this.state.filteredPlayers}/>
+                <TeamShowPage key={team.id} team={team} favs={this.favoriteNbaPlayer} filtered={this.state.filteredPlayers} players={this.state.players}/>
               )} />
             )
           })}

@@ -1,17 +1,78 @@
 import React from 'react'
-import {Segment, Grid, Image, Loader} from 'semantic-ui-react'
+import {Segment, Grid, Search, Image, Loader} from 'semantic-ui-react'
 import PlayerCards from './PlayerCards.js'
 
 
 
 class TeamShowPage extends React.Component {
 
+    state = {
+        players: [],
+        searchPlayers: this.props.players,
+        filteredPlayers: [],
+        search: ""
+    }
+
+    componentDidMount(){
+        this.setState({ players: this.props.players })
+    }
+
+    onChangeSearch = (e) => {
+     
+        
+            let search = e.target.value
+            this.setState({search: search})
+          
+
+        // if (this.state.players.length === []){
+        //     let filter = this.props.players.filter(player => player.full_name.includes(this.state.search)) 
+        //     this.setState({ players: filter })
+        //     this.setState({ filteredPlayers: filter })
+        //     this.setState({ search: event.target.value })
+        // } else {
+        //     let filter = this.state.players.filter(player => player.full_name.includes(this.state.search))
+        //     this.setState({ players: filter })
+        //     this.setState({ filteredPlayers: filter })
+        //     this.setState({ search: event.target.value })
+        // }
+    }
+
+    filterPlayer = () => {
+        let {players, search} = this.state
+        // debugger
+        return players.filter(player => player.full_name.toLowerCase().includes(search.toLowerCase()))
+      }
+
     render(){
         const {image} = this.props.team
         
         return(
         <div>
-            
+            {/* <Grid.Column>
+                    <Search onSearchChange={this.onChangeSearch}/>
+            </Grid.Column>
+            {this.state.players.length === 0 ?
+                <Grid relaxed='very' columns={6}>
+                {this.props.team.players.map(player => {
+                    return (
+                        <Grid.Column>
+                        <PlayerCards player={player} key={player.id} favoritePlayer={this.props.favs}/>                        </Grid.Column>
+                    )
+                })}
+                </Grid>
+                :
+                <Grid relaxed='very' columns={6}>
+                {this.props.team.players.map(player => {
+                    return (
+                        <Grid.Column>
+                            <PlayerCards player={this.filterPlayer} key={player.id} favoritePlayer={this.props.favs}/>                        </Grid.Column>
+                    )
+                })}
+                </Grid>
+                } */}
+                <Grid.Column>
+                    <Search onSearchChange={this.onChangeSearch}/>
+            </Grid.Column>
             <Grid relaxed='very' columns={6}>
                 {this.props.team.players.map(player => {
                     return (

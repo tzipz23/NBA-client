@@ -11,7 +11,44 @@ class UserShowPage extends React.Component {
         modalEditOpen: false,
         modalDeleteOpen: false,
         articles: []
+        // followerList: [],
+        // followingList: [],
+        // following: []
         
+    }
+
+    handleFollow = (id, name) => {
+        // console.log("hit", id)
+        const alreadyFollowed = this.state.favoriteTeams.some(p => p.team.name === name)
+    
+        // if (alreadyFollowed === true){
+        //   return swal({
+        //     icon: "info",
+        //     text: "Already Followed"
+        // })} else if (this.state.currentUser === null) {
+        //   return swal({
+        //     icon: "error",
+        //     text: "Must Be Signed In To Follow Team"
+        // })
+        // } else {
+          const obj = {
+            user_id: this.state.currentUser.id,
+            team_id: id
+        }
+        fetch("http://localhost:3001/user_joins", {
+            method: "POST",
+            headers: {"Content-Type": "application/json", "Accept": "application/json"},
+            body: JSON.stringify(obj)
+        })
+        .then(resp => resp.json())
+        .then(data => {
+              this.setState({ favoriteTeams: [...this.state.favoriteTeams, data] })
+              return swal({
+                icon: "success",
+                text: "Followed User"
+            })
+        })
+      }
     }
 
     render(){
@@ -39,13 +76,13 @@ class UserShowPage extends React.Component {
                     <Card.Content extra>
                     </Card.Content>
                     {/* Edit Profile */}
-                    <Modal 
+                    {/* <Modal 
                     trigger={<button type="button" className="btn btn-outline-success" id="profile-button" onClick={this.handleEditOpen} >Edit Profile</button>}
                     open={this.state.modalEditOpen}
                     onClose={this.handleEditClose}
                     centered={true}
-                    >
-                        <Modal.Content>
+                    > */}
+                        {/* <Modal.Content>
                         <Modal.Description>
                             <Header>Edit Image</Header>
                             <Form
@@ -59,15 +96,15 @@ class UserShowPage extends React.Component {
                             </Form>
                         </Modal.Description>
                         </Modal.Content>
-                    </Modal>
+                    </Modal> */}
                     {/* Delete Profile */}
                     <Modal 
-                    trigger={<button type="button" class="btn btn-outline-danger" id="profile-button" onClick={this.handleDeleteOpen} >Delete Profile</button>}
-                    open={this.state.modalDeleteOpen}
-                    onClose={this.handleDeleteClose}
-                    centered={true}
+                    trigger={<button type="button" class="btn btn-outline-danger" id="profile-button" onClick={this.handleFollow} >Follow</button>}
+                    // open={this.state.modalDeleteOpen}
+                    // onClose={this.handleDeleteClose}
+                    // centered={true}
                     >
-                        <Modal.Header>Delete Profile</Modal.Header>
+                        {/* <Modal.Header>Delete Profile</Modal.Header>
                         <Modal.Content>
                         <p>
                             Are you sure you want to delete your profile?  We'll be sad to see you go!
@@ -80,7 +117,7 @@ class UserShowPage extends React.Component {
                         <Button onClick={this.props.deleteProfile} color='green'>
                             <Icon name='checkmark' /> Yes
                         </Button>
-                        </Modal.Actions>
+                        </Modal.Actions> */}
                     </Modal>
                 </Card>
             </Segment>
