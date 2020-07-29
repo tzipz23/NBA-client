@@ -75,6 +75,7 @@ class LoginContainer extends React.Component {
             // store the token locally on the user's (customer/client) browser
             if (data.token) {
                 localStorage.setItem('token', data.token)
+                localStorage.setItem('user_id', data.user.id)
                 this.props.setUser(data.user)
                 return data.status
             }

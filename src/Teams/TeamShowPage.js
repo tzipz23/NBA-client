@@ -1,5 +1,5 @@
 import React from 'react'
-import {Segment, Grid, Search, Image, Loader} from 'semantic-ui-react'
+import {Segment, Grid, Search} from 'semantic-ui-react'
 import PlayerCards from './PlayerCards.js'
 
 

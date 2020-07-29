@@ -1,5 +1,5 @@
 import React from 'react'
-import TeamShowPage from './TeamCard'
+// import TeamShowPage from './TeamCard'
 import { Grid, Search} from 'semantic-ui-react'
 import TeamCard from './TeamCard'
 // import {Link, Route} from 'react-router-dom' 

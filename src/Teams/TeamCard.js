@@ -1,6 +1,7 @@
 import React from 'react'
 import { Card, Image, Button, Header, Modal, Icon } from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
+import ReactPlayer from "react-player"
 // import PlayerCards from './PlayerCards'
 
 
@@ -42,12 +43,15 @@ class TeamCard extends React.Component {
                     onClose={this.handleClose}>
                 <Modal.Header>Team Details</Modal.Header>
                     <Modal.Content image>
-                    <Image wrapped size='medium' src={image} />
+                    <Image wrapped size='small' src={image} />
                     <Modal.Description>
                         <Header>{name}</Header>
                         <p>Venue: {venue}</p>
                         <p>Market: {market}</p>
                         <p>League: {sport_title}</p>
+                        <p><ReactPlayer style={{height: '250px', width: '300px'}}
+                                url="https://www.youtube.com/watch?v=DsxxgJTXr8Y"
+                            /></p>
                         {/* <Link to={"/nba/teams/" + name}> {name} Team Page</Link> */}
                     </Modal.Description>
                     </Modal.Content>

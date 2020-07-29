@@ -5,12 +5,13 @@ import './App.css';
 
 import Navbar from './Navbar'
 import LoginContainer from './Login/LoginContainer'
-import Register from './Login/Register'
+// import Register from './Login/Register'
 import Home from './Home/Home'
-import UserInfoContainer from './Account/UserInfoContainer'
+// import UserInfoContainer from './Account/UserInfoContainer'
 import Media from './Media/MediaContainer'
 import Teams from './Teams/TeamContainer'
 import Profile from './Profile/ProfileContainer'
+import UserShowPage from './Profile/UserShowPage'
 import TeamShowPage from './Teams/TeamShowPage';
 import swal from 'sweetalert';
 
@@ -26,79 +27,23 @@ class App extends React.Component {
     currentUser: null,
     favoritePlayers: [],
     favoriteTeams: [],
-    alreadyFollowed: [],
-    displayed: 0,
     filteredPlayers: [],
     followerList: [],
     followingList: [],
-    savedArticles: [],
-    searchedUser: null,
-    searchedUserFollowingList: [],
-    searchedUserFollowerList: [],
-    searchedUserFavPlayers: [],
-    searchedUserFavTeams: [],
-    searchedUserFavoritePlayersIds: [],
-    searchedUserFavoriteTeamsIds: []
-
-  }
-
-  searchedUser = (user) => {
-
-    let id = user.id
-    // debugger
-    let userObj = {}
-    fetch(`http://localhost:3001/user/${id}`)
     
-    .then(resp => resp.json())
-    .then(resp => {
-      // debugger
-      userObj['id'] = resp.id
-      userObj["username"] = resp.username
-      userObj["followers"] = resp.followed_by
-      userObj["following"] = resp.followers
-      let followingList = []
-      let followedList = []
-      let searchedUserFavoritePlayersIds = []
-      let searchedUserFavoriteTeamsIds = []
-      let searchedUserFavPlayers = []
-      let searchedUserFavTeams = []
-          resp.follows.forEach((user) => followingList.push(user.followed_id))
-          resp.followed_by.forEach((user) => followedList.push(user.follower_id))
-          resp.favoriteNbaPlayers.forEach((player) => searchedUserFavoritePlayersIds.push(player.id))
-          resp.favoriteNbaPlayers.forEach((player) => searchedUserFavPlayers.push(player))
-          resp.favoriteNbaPlayers.forEach((team) => searchedUserFavoriteTeamsIds.push(team.id))
-          resp.favoriteNbaPlayers.forEach((team) => searchedUserFavTeams.push(team))
-
-          this.setState({
-            searchedUserFollowingList: followingList,
-            searchedUserFollowerList: followedList,
-            searchedUser: userObj,
-            searchedUserFavoritePlayersIds: searchedUserFavoritePlayersIds,
-            searchedUserFavoriteTeamsIds: searchedUserFavoriteTeamsIds,
-            searchedUserFavoritePlayers: searchedUserFavPlayers,
-            searchedUserFavoriteTeams: searchedUserFavTeams
-
-          })
-
-    })
-
+    searchedUser: null,
+   
 
   }
+
 
   componentDidMount() {
-    // fetch("https://spn-backend.herokuapp.com/leagues")
-    // .then(resp => resp.json())
-    // .then(data => {
-    //   const nba = data.find(league => league.name === "NBA")
-    //   this.setState({ nbaLeague: nba })
-    //   this.setState( { leagues: data })
-    // })
     
     fetch("http://localhost:3001/teams")
     .then(resp => resp.json())
     .then(data => {
       const teams = data.filter(team => team.sport_title === "NBA" )
-      // console.log(teams)
+     
       this.setState({ Nbateams: teams })
       this.setState({ teams: data })
     })
@@ -123,11 +68,11 @@ class App extends React.Component {
       console.log("No Token Found")
     }
 
-    fetch("http://localhost:3001/user_articles")
+    fetch("http://localhost:3001/user_players")
         .then(resp => resp.json())
         .then(data => {
           // debugger
-          this.setState({savedArticles: data})
+          this.setState({favoritePlayers: data})
         })
   }
 
@@ -140,8 +85,10 @@ class App extends React.Component {
     fetch("http://localhost:3001/user_players")
     .then(resp => resp.json())
     .then(data => {
+      
       let userInfo = data.filter(user_player => this.state.currentUser.id === user_player.user_id)
       this.setState({ favoritePlayers: userInfo })
+      debugger
     })
     // Fetching User_Team data for User signed in
     fetch("http://localhost:3001/user_teams")
@@ -188,7 +135,7 @@ class App extends React.Component {
         this.handleDeleteFavorite(foundPlayer.id)
         swal({
           icon: "info",
-          text: "Player Unfollowed"
+          text: "Player Unfavorited"
       })
       }
     )
@@ -225,7 +172,7 @@ class App extends React.Component {
           this.setState({ favoritePlayers: [...this.state.favoritePlayers, data] })
           return swal({
             icon: "success",
-            text: "Followed Player"
+            text: "Favorited Player"
         })
     })
   }
@@ -270,7 +217,7 @@ class App extends React.Component {
           this.setState({ favoriteTeams: [...this.state.favoriteTeams, data] })
           return swal({
             icon: "success",
-            text: "Followed Team"
+            text: "Favorited Team"
         })
     })
   }
@@ -287,7 +234,7 @@ handleDeleteFavoriteTeam = (id) => {
   })
   swal({
     icon: "info",
-    text: "Team Unfollowed"
+    text: "Team Unfavorited"
 })
 }
 
@@ -314,6 +261,11 @@ handleDeleteFavoriteTeam = (id) => {
           <Route exact path='/articles' render={ () => < Media/>} />          {/* Nba/Players */}
           {/* <Route exact path="/nba/players" render={ () => <NbaPlayerIndex players={this.state.players} filtered={this.state.filteredPlayers} teams={this.state.Nbateams} league={this.state.nbaLeague} user={this.state.currentUser} favs={this.favoriteNbaPlayer}/>} /> */}
           {/* NBA/Teams */}
+
+
+          <Route exact path='/user/:id' render={ (routerProps) => < UserShowPage id={routerProps.match.params.id} /> } /> 
+
+
           <Route exact path='/team' render={() => <Teams players={this.state.players} teams={this.state.Nbateams} league={this.state.nbaLeague} user={this.state.currentUser} favs={this.favoriteNbaTeam}/>} />
           {/* Login */}
           <Route exact path="/login" render={ () => (
@@ -345,6 +297,7 @@ handleDeleteFavoriteTeam = (id) => {
               <Route exact path={"/nba/teams/" + team.name} key={team.id} render={() => (
                 <TeamShowPage key={team.id} team={team} favs={this.favoriteNbaPlayer} filtered={this.state.filteredPlayers} players={this.state.players}/>
               )} />
+            
             )
           })}
          
@@ -369,7 +322,7 @@ export default App;
 
 
 
-{/* <Navbar isLogged={!!this.state.currentUser} removeUser={this.removeUser} firstName={this.state.currentUser}/>
+/* <Navbar isLogged={!!this.state.currentUser} removeUser={this.removeUser} firstName={this.state.currentUser}/>
       {
         this.state.currentUser ?
         < Switch >
@@ -405,4 +358,4 @@ export default App;
         // logged in
         :
       <LoginContainer setUser={this.setUser} />
-      } */}
+      } */

@@ -1,12 +1,10 @@
 import React from 'react'
 import ProfilePic from './ProfilePic'
-import FavPlayers from './FavPlayers'
-import FavTeams from './FavTeams'
-import SavedMedia from './SavedMedia'
+
 import {Grid, Image, Icon, Button, Card, Segment, Modal, Header, Form, Menu} from 'semantic-ui-react'
 import swal from 'sweetalert';
 import './ProfileContainer.css'
-import MediaResult from '../Media/MediaResult'
+
 
 
 
@@ -18,23 +16,28 @@ class ProfileContainer extends React.Component {
         password: "",
         modalEditOpen: false,
         modalDeleteOpen: false,
-        articles: [],
-        // followerList: [],
-        // followingList: []
+       
+        followerList: [],
+        followingList: [],
 
-        activeItem: 'bio'
+        favPlayers:[],
+        favTeams:[],
+        activeItem: 'bio',
+
+        likes:0,
+        dislikes:0
         
     }
 
     handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
-    componentDidMount(){
-        fetch("http://localhost:3001/user_articles")
+    componentDidMount(id){
+        fetch(`http://localhost:3001/user/${id}`)
         .then(resp => resp.json())
         .then(data => {
-          let filtered = data.filter(article => article.user.id === this.props.user.id)
-         
-          this.setState({articles: filtered})
+        //   let filtered = data.filter(player => player.user.id === this.props.user.id)
+         console.log(data)
+        //   this.setState({favPlayers: data})
         })
     }
 
@@ -76,13 +79,12 @@ class ProfileContainer extends React.Component {
         
         return(
         <div>
-            < ProfilePic />
-            < FavPlayers />
-            < FavTeams />
-            < SavedMedia />
+            < ProfilePic likes={this.likeCount} />
+            <br />
+            
 
             <div className="profile profile-background">
-                <Grid columns={2} celled >
+                <Grid columns={2} divided >
                     <Grid.Row stretched>
                     <Grid.Column className="profile-user-card" width={6} >
                             <Segment  >
@@ -260,40 +262,7 @@ class ProfileContainer extends React.Component {
                     </Grid.Row>
                     {/* Bookmark Group */}
                     
-                    <Grid className="profile-row-bookmarks" >
-                        <div className="padding-bookmarks">
-                            {this.state.articles.length === 0 ?
-                            <Segment >
-                            <h1 style={{fontFamily: "Impact"}}> <u>Comments</u> </h1>
-                            <br />
-                            <Grid>
-                                <Grid.Row columns={1}>
-                                    <Grid.Column >
-                                        {/* <img alt="profile-news" className="profile-news-image" src="" ></img> */}
-                                    </Grid.Column>
-                                    <Grid.Column>
-                                        <br />
-                                        <br />
-                                        <br />
-                                        <br />
-                                        <h1 style={{fontFamily: "Impact"}}> No Current Comments</h1>
-                                    </Grid.Column>
-                                </Grid.Row>
-                            </Grid>
-                            </Segment>
-                            :
-                            <div>
-                            {this.state.articles.map(article => {
-                                return(
-                                    <div>
-                                         <articles mark={article} key={article.id} unBookmark={this.deleteBookmark}/>
-                                    </div>
-                                ) 
-                            })}
-                            </div>
-                            }
-                        </div>
-                    </Grid>
+                    
               </Grid>
               
             </div>

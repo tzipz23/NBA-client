@@ -1,38 +1,13 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import {Search, Grid} from 'semantic-ui-react'
-import SearchNav from './SearchNav'
+import { withRouter } from 'react-router-dom';
 
 
 // import logo from './images/JobTestr.png'
 import logo from './images/medialogo.png'
 
 import './Navbar.css'
-
-// const Navbar = (props) => {
-//     return (
-//         <div className ='Navbar'>
-           
-//                 <div className='Navbar-logo'>
-//                 <Link to='/'><img style={{height: '9rem', width: '9rem'}} src={logo} alt='logo'/></Link>                </div>
-//                 <ul className='Navbar-menu'>
-//                 {/* <Grid.Column>
-//                     <Search onSearchChange={this.onChangeSearch}/>
-//                     < Search placeholder='search users'/>
-//                 </Grid.Column> */}
-                
-//                 <li className='Navbar-menu-item'><Link to='/articles'>Media</Link></li>
-//                     <li className='Navbar-menu-item'><Link to='/team'>Teams</Link></li>
-//                     <li className='Navbar-menu-item'><Link to='/profile'>Profile</Link></li>
-//                 </ul>
-//                 <div className='Navbar-avatar'>
-//                 {props.user === null || localStorage.length === 0 ? <Link to="/signup">Signup</Link> : null}
-//                     {props.user === null || localStorage.length === 0 ? null : <Link to="/login" onClick={props.logout}>Logout</Link>}
-//                 </div>
-//             </div>
-       
-//     )
-// }
 
 class Navbar extends React.Component {
     state = {
@@ -46,17 +21,6 @@ class Navbar extends React.Component {
         localStorage.removeItem('token')
         this.props.removeUser()
     }
-
-    // fixState = (event) =>{
-    //     let searched = event.target.value
-    //     let excludedLoggedInUser = this.props.users.filter((user) => user.username !== this.props.loggedInUser.username) 
-    //     let found = excludedLoggedInUser.filter((user) => user.username.includes(searched))
-    //     found = found.map(boxer => ({title: boxer.username}))
-    //     this.setState({
-    //         searching: searched,
-    //         boxers: found
-    //     })
-    // }
 
     componentDidMount(){
         fetch("http://localhost:3001/user")
@@ -79,9 +43,10 @@ class Navbar extends React.Component {
     }
 
     handleResultSelect = (event) => {
-        let filteredUser = this.state.users.find((user) => user.first_name == event.target.innerText)
+        let filteredUser = this.state.users.find((user) => user.first_name === event.target.innerText)
         // debugger
-        this.props.searchedUser(filteredUser)
+        this.props.history.location.pathname = "/"         
+        this.props.history.push(`user/${filteredUser.id}`)
     }
 
     render(){
@@ -91,8 +56,7 @@ class Navbar extends React.Component {
                 <Link to='/'><img style={{height: '9rem', width: '9rem'}} src={logo} alt='logo'/></Link>                </div>
                 <ul className='Navbar-menu'>
                 <Grid.Column>
-                    <Search placeholder='search users' results={this.state.filteredUser} onSearchChange={this.onSearchChange} onResultSelect={this.handleResultSelect}/>
-                    {/* < Search placeholder='search users'  onResultSelect={event => this.selectedUser(event)} results={this.state.boxers} value={this.state.searching} onSearchChange={event => this.fixState(event)}/> */}
+                    <Search style={{zIndex: "1"}} placeholder='search users' results={this.state.filteredUser} onSearchChange={this.onSearchChange} onResultSelect={this.handleResultSelect}/>
                 </Grid.Column>
                 
                 <li className='Navbar-menu-item'><Link to='/articles'>Media</Link></li>
@@ -110,4 +74,4 @@ class Navbar extends React.Component {
 }
 
 
-export default Navbar;
+export default withRouter(Navbar)

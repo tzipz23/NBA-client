@@ -1,6 +1,6 @@
 import React from 'react'
 import extLink from '../images/external-link.svg'
-import { Button } from 'semantic-ui-react'
+// import { Button } from 'semantic-ui-react'
 
 
 
@@ -37,7 +37,7 @@ class Result extends React.Component {
              <a href = {url}><img src={extLink} style={{height: '1rem', width: '1rem'}} alt="external link icon" /></a>
               
             
-             <Button className='UA-save-btn' onClick={this.handleSave}>Save</Button>
+             
           </div>
 
         )
