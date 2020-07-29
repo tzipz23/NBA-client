@@ -15,8 +15,9 @@ class UserShowPage extends React.Component {
 
         favPlayers:[],
         favTeams:[],
-        activeItem: 'bio'
-        
+        activeItem: 'bio',
+
+        follows: []
     }
 
     handleItemClick = (e, { name }) => this.setState({ activeItem: name })
@@ -32,6 +33,16 @@ class UserShowPage extends React.Component {
           this.setState({user: data})
         })
 
+        // Get their followers
+
+        fetch(`http://localhost:3001/follow/${this.props.id}/followers`)
+        .then(resp => resp.json())
+        .then(data => {
+        // debugger
+        //   let filtered = data.filter(player => player.user.id === this.props.user.id)
+          this.setState({followerList: [...data]})
+        })
+
         // console.log(this.props.id)
         fetch('http://localhost:3001/user_players',{
         method: "GET",
@@ -43,7 +54,7 @@ class UserShowPage extends React.Component {
             let userInfo = data.filter(user_player => parseInt(this.props.id) === user_player.user_id)
     //   console.log(typeof (this.props.id))
     //   console.log(userInfo)
-            this.setState({...this.state, favPlayers: userInfo})
+            this.setState({ favPlayers: userInfo})
         })
 
         fetch('http://localhost:3001/user_teams',{
@@ -59,6 +70,9 @@ class UserShowPage extends React.Component {
             this.setState({...this.state, favTeams: userInfo})
         })
 
+        fetch('http://localhost:3001/follow')
+        .then(resp => resp.json())
+        .then(data => this.setState({user_join: data}))
     }
 
 
@@ -82,18 +96,18 @@ class UserShowPage extends React.Component {
         .then(data => {
     //   console.log(typeof (this.props.id))
       console.log(data)
-            // this.setState({...this.state, followerList: data})
+             this.setState({followerList: [...this.state.followerList, data]})
         })
     }
 
-    UnSubmitFollow = (id) => {
+    UnSubmitFollow = () => {
         let follower_id = localStorage.getItem("user_id")
         let followed_id = this.props.id
         if (follower_id === followed_id){
             return 
         }
-
-        fetch(`http://localhost:3001/follow/${id}`,{
+        
+        fetch('http://localhost:3001/follow',{
         method: "DELETE",
         headers: {
             "Accept": "application/json",  "Content-Type": "application/json"
@@ -103,17 +117,23 @@ class UserShowPage extends React.Component {
         })
 
         }).then(resp => resp.json())
-        .then(data => {
-    //   console.log(typeof (this.props.id))
-      console.log(data)
-            // this.setState({...this.state, followingList: data})
+        .then(delItem => {
+            console.log(delItem)
+            let followersArray = this.state.followerList.filter( (relationship) => relationship.id !== delItem.id )
+        //   console.log(typeof (this.props.id))
+            this.setState({followerList: followersArray})
         })
     }
 
 
 
     render(){
-        
+        const user_id = localStorage.getItem('user_id')
+        let isFollower = false
+        if (this.state.followerList) {
+           isFollower = this.state.followerList.some( relationship => relationship.follower_id === parseInt(user_id) )
+        }
+       
         return(
         <div>
             < ProfilePic />
@@ -132,9 +152,8 @@ class UserShowPage extends React.Component {
                                     <Card.Header>{this.state.user ? this.state.user.user_name : null}</Card.Header> 
                                     <br />
 
-                                    {/* this.state.followerList ? */}
-                                    <Button onClick={this.UnSubmitFollow}>UnFollow</Button> :
-                                    <Button onClick={this.submitFollow}>Follow</Button>
+                                    { isFollower ? <Button onClick={this.UnSubmitFollow}>UnFollow</Button>  :  <Button onClick={this.submitFollow}>Follow</Button> }
+                                              
                                     
                                     </Card.Content>
                                     <Card.Content extra>
@@ -143,6 +162,7 @@ class UserShowPage extends React.Component {
                                                     name='Followers'
                                                     active={this.state.activeItem === 'Followers'}
                                                     onClick={this.handleItemClick}
+                                                   // value={this.state.followerList.length}
                                                     />
                                                     <Menu.Item
                                                     name='Following'
@@ -150,7 +170,7 @@ class UserShowPage extends React.Component {
                                                     onClick={this.handleItemClick}
                                                     />
                                                 </Menu>
-                                        Follower/ Following
+                                         Follower {this.state.followerList.length} / Following
 
 
                                     </Card.Content>

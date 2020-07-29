@@ -42,9 +42,9 @@ class App extends React.Component {
     fetch("http://localhost:3001/teams")
     .then(resp => resp.json())
     .then(data => {
-      const teams = data.filter(team => team.sport_title === "NBA" )
+      // const teams = data.filter(team => team.sport_title !== "NBA" )
      
-      this.setState({ Nbateams: teams })
+    //  this.setState({ Nbateams: teams,  })
       this.setState({ teams: data })
     })
 
@@ -52,7 +52,7 @@ class App extends React.Component {
     .then(resp => resp.json())
     .then(data => {
       this.setState({ players: data })
-      this.display(data)
+     
     })
 
     if(localStorage.getItem("token")){
@@ -88,7 +88,7 @@ class App extends React.Component {
       
       let userInfo = data.filter(user_player => this.state.currentUser.id === user_player.user_id)
       this.setState({ favoritePlayers: userInfo })
-      debugger
+      
     })
     // Fetching User_Team data for User signed in
     fetch("http://localhost:3001/user_teams")
@@ -110,7 +110,7 @@ class App extends React.Component {
 
   deleteProfile = () => {
     // debugger
-    fetch(`http://localhost:3001/users/index/${this.state.currentUser.id}`, {
+    fetch(`http://localhost:3001/user/${this.state.currentUser.id}`, {
         method: "DELETE"
     })
     .then(resp => resp.json())
@@ -266,7 +266,7 @@ handleDeleteFavoriteTeam = (id) => {
           <Route exact path='/user/:id' render={ (routerProps) => < UserShowPage id={routerProps.match.params.id} /> } /> 
 
 
-          <Route exact path='/team' render={() => <Teams players={this.state.players} teams={this.state.Nbateams} league={this.state.nbaLeague} user={this.state.currentUser} favs={this.favoriteNbaTeam}/>} />
+          <Route exact path='/team' render={() => <Teams players={this.state.players} teams={this.state.teams} league={this.state.nbaLeague} user={this.state.currentUser} favs={this.favoriteNbaTeam}/>} />
           {/* Login */}
           <Route exact path="/login" render={ () => (
           this.state.currentUser === null || localStorage.length === 0 ? 

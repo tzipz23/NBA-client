@@ -45,6 +45,8 @@ class ProfileContainer extends React.Component {
         this.setState({ [event.target.id]: event.target.value })
     }
 
+    
+
     handleEditOpen = () => this.setState({ modalEditOpen: true })
     handleEditClose = () => this.setState({ modalEditOpen: false })
     handleDeleteOpen = () => this.setState({ modalDeleteOpen: true })

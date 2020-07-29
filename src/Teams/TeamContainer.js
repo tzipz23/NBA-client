@@ -5,24 +5,24 @@ import TeamCardContainer from './TeamCardContainer'
 
 
 class TeamContainer extends React.Component {
-    state = {
-        teams: []
-    }
+    // state = {
+    //     teams: []
+    // }
 
-    componentDidMount(){
-        fetch("http://localhost:3001/teams")
-        .then(resp => resp.json())
-        .then(teamData => {
+    // componentDidMount(){
+    //     fetch("http://localhost:3001/teams")
+    //     .then(resp => resp.json())
+    //     .then(teamData => {
             
-            this.setState({teams: teamData})
-        })
-    }
+    //         this.setState({teams: teamData})
+    //     })
+    // }
 
     render(){
         
         return(
         <div>
-            < TeamCardContainer teams={this.state.teams} favorPlayer={this.props.favs} favorTeam={this.props.favs} />
+            < TeamCardContainer teams={this.props.teams} favorPlayer={this.props.favs} favorTeam={this.props.favs} />
         </div>
         )
 

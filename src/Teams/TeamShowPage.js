@@ -1,5 +1,5 @@
 import React from 'react'
-import {Segment, Grid, Search} from 'semantic-ui-react'
+import {Segment, Grid, Image} from 'semantic-ui-react'
 import PlayerCards from './PlayerCards.js'
 
 
@@ -10,31 +10,18 @@ class TeamShowPage extends React.Component {
         players: [],
         searchPlayers: this.props.players,
         filteredPlayers: [],
-        search: ""
+        
     }
 
+ 
     componentDidMount(){
         this.setState({ players: this.props.players })
     }
 
     onChangeSearch = (e) => {
      
-        
             let search = e.target.value
             this.setState({search: search})
-          
-
-        // if (this.state.players.length === []){
-        //     let filter = this.props.players.filter(player => player.full_name.includes(this.state.search)) 
-        //     this.setState({ players: filter })
-        //     this.setState({ filteredPlayers: filter })
-        //     this.setState({ search: event.target.value })
-        // } else {
-        //     let filter = this.state.players.filter(player => player.full_name.includes(this.state.search))
-        //     this.setState({ players: filter })
-        //     this.setState({ filteredPlayers: filter })
-        //     this.setState({ search: event.target.value })
-        // }
     }
 
     filterPlayer = () => {
@@ -44,7 +31,7 @@ class TeamShowPage extends React.Component {
       }
 
     render(){
-        const {image} = this.props.team
+        const {image, name} = this.props.team
         
         return(
         <div>
@@ -71,10 +58,16 @@ class TeamShowPage extends React.Component {
                 </Grid>
                 } */}
                 <Grid.Column>
-                    <Search onSearchChange={this.onChangeSearch}/>
+                    <Segment>
+                    <h1>{name} Players</h1>
+                    
+                    <Image wrapped size='medium' src={image} />
+                    </Segment>
+                    <br />
             </Grid.Column>
             <Grid relaxed='very' columns={6}>
                 {this.props.team.players.map(player => {
+                    
                     return (
                         <Grid.Column centered>
                             <Segment style={{background: `url(${image})`}}>

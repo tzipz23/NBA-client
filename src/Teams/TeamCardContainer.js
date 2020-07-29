@@ -1,6 +1,6 @@
 import React from 'react'
 // import TeamShowPage from './TeamCard'
-import { Grid, Search} from 'semantic-ui-react'
+import { Grid, Segment, Dropdown} from 'semantic-ui-react'
 import TeamCard from './TeamCard'
 // import {Link, Route} from 'react-router-dom' 
 
@@ -12,40 +12,69 @@ class TeamCardContainer extends React.Component {
         teams: [],
         searchTeams: this.props.players,
         // filteredTeams: [],
-        search: ""
+        dropdownTeam: [],
+        filteredTeam: []
     }
-    
+    onChangeTeams = (event) => {
+        let filter = this.props.teams.filter(team => event.target.textContent === team.name)
+        this.setState({ filteredTeam: filter })
+        this.setState({ dropdownTeam: event.target.textContent })
+    }
+
     render(){
-
-        // const src = '/images/wireframe/white-image.png'
-
-        // let {image} =  this.props.result
+        const teams = this.props.teams.map(team => ({
+            key: team.name,
+            text: team.name,
+            value: team.name,
+        }))
+        teams.unshift({
+            key: "All Teams",
+            text: "All Teams",
+            value: "All Teams"
+        })
         return(
-            
-        <div>
-            <Grid.Column>
-                    <Search onSearchChange={this.onChangeSearch}/>
-            </Grid.Column>
-            
-            <Grid relaxed='very' columns={5}>
+            <div className="nba-team-index">
+                {/* <h1>NBA teams</h1> */}
+                
+                <Grid relaxed='very' columns={1}>
+                    <Grid.Column>
+                        <h4>Select Team</h4>
+                        <Dropdown placeholder='All Teams' search selection options={teams} onChange={this.onChangeTeams} />
+                    </Grid.Column>
+                </Grid>
+                {/* <img src="https://i0.wp.com/textlists.info/wp-content/uploads/nba.jpg?fit=700%2C330&ssl=1" ></img> */}
+                <br /> <br /> <br />
+                {/* <img src={this.props.league.logo_img} alt="logo"/> */}
+                {this.state.filteredTeam.length === 0 ? 
+                <Grid relaxed='very' columns={5}>
                 {this.props.teams.map(team => {
                     return (
                         <Grid.Column>
-                            {/* <TeamShowPage team={team} key={team.id} favoriteTeam={this.props.favorTeam} favPlayer={this.props.favorplayer}/> */}
-                            <TeamCard team={team} key={team.id} favoriteTeam={this.props.favorTeam} favPlayer={this.props.favorplayer} />
-                        </Grid.Column>
-                            // <TeamCard team={team} favoriteTeam={this.props.favorTeam}/>
+                        <TeamCard team={team} key={team.id} favoriteTeam={this.props.favorTeam} favPlayer={this.props.favorplayer} />                        </Grid.Column>
                     )
                 })}
                 </Grid>
-            {/* < TeamShowPage /> */}
-          
-
-        </div>
+                :
+                <Grid relaxed='very' columns={5}>
+                {this.state.filteredTeam.map(team => {
+                    return (
+                        <Grid.Column>
+                            <TeamCard team={team} key={team.id} favoriteTeam={this.props.favorTeam} favPlayer={this.props.favorplayer} />                        </Grid.Column>
+                    )
+                })}
+                </Grid>
+                }
+            </div>
         )
-
     }
-
 }
 
 export default TeamCardContainer
+
+
+
+
+
+
+
+{/* <TeamCard team={team} key={team.id} favoriteTeam={this.props.favorTeam} favPlayer={this.props.favorplayer} /> */}
