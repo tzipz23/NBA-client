@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  background-color: black;
 }
 
 .App-logo {
@@ -38,7 +39,7 @@
 }
 
 .Navbar {
-  overflow: hidden;
+  overflow: visible;
   background-color:#91b4d8;
   min-height: 100px;
   z-index: 15;
@@ -59,7 +60,7 @@
   margin-top: -22px;
   background: url(https://media.giphy.com/media/xTiTnpcaFPfJAzaP8A/giphy.gif) no-repeat center center;
   background-size: cover;
-  color: white;
+  color: black;
   
   /* margin-bottom: 40px; */
   

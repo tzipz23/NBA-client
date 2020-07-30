@@ -51,7 +51,7 @@ class Navbar extends React.Component {
 
     render(){
         return(
-            <div className ='Navbar'>
+            <div className ='Navbar' style={{zIndex: "1"}}>
                 <div className='Navbar-logo'>
                 <Link to='/'><img style={{height: '9rem', width: '9rem'}} src={logo} alt='logo'/></Link>                </div>
                 <ul className='Navbar-menu'>
