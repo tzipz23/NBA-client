@@ -39,13 +39,29 @@ class ProfileContainer extends React.Component {
          console.log(data)
         //   this.setState({favPlayers: data})
         })
+
+        fetch(`http://localhost:3001/follow/${this.props.user.id}/followers`)
+        .then(resp => resp.json())
+        .then(data => {
+        // debugger
+        //   let filtered = data.filter(player => player.user.id === this.props.user.id)
+          this.setState({followerList: [...data]})
+        })
+
+        fetch(`http://localhost:3001/follow/${this.props.user.id}/following`)
+        .then(resp => resp.json())
+        .then(data => {
+        // debugger
+        //   let filtered = data.filter(player => player.user.id === this.props.user.id)
+          this.setState({followingList: [...data]})
+        })
+
+
     }
 
     changeProfileInfoState = (event) => {
         this.setState({ [event.target.id]: event.target.value })
     }
-
-    
 
     handleEditOpen = () => this.setState({ modalEditOpen: true })
     handleEditClose = () => this.setState({ modalEditOpen: false })
@@ -75,17 +91,19 @@ class ProfileContainer extends React.Component {
         })
     }
 
+    
+
 
 
     render(){
         
         return(
-        <div>
-            < ProfilePic likes={this.likeCount} />
+        <div className="profile-background">
+            < ProfilePic />
             <br />
             
 
-            <div className="profile profile-background">
+            <div>
                 <Grid columns={2} divided >
                     <Grid.Row stretched>
                     <Grid.Column className="profile-user-card" width={6} >
@@ -97,7 +115,7 @@ class ProfileContainer extends React.Component {
                                     <Card.Header>{this.props.user.user_name}</Card.Header> 
                                     </Card.Content>
                                     <Card.Content extra>
-                                    <Menu tabular>
+                                    {/* <Menu tabular>
                                                     <Menu.Item
                                                     name='Followers'
                                                     active={this.state.activeItem === 'Followers'}
@@ -108,12 +126,12 @@ class ProfileContainer extends React.Component {
                                                     active={this.state.activeItem === 'Following'}
                                                     onClick={this.handleItemClick}
                                                     />
-                                                </Menu>
-                                        Follower/ Following
+                                                </Menu> */}
+                <h4>Followers</h4> ( {this.state.followerList.length} )/ <h4> Following </h4>( {this.state.followingList.length} )
                                     </Card.Content>
                                     {/* Edit Profile */}
                                     <Modal 
-                                    trigger={<button type="button" className="btn btn-outline-success" id="profile-button" onClick={this.handleEditOpen} >Edit Profile</button>}
+                                    trigger={<Button color='yellow' type="button" className="btn btn-outline-success" id="profile-button" onClick={this.handleEditOpen} >Edit Profile</Button>}
                                     open={this.state.modalEditOpen}
                                     onClose={this.handleEditClose}
                                     centered={true}
@@ -135,7 +153,7 @@ class ProfileContainer extends React.Component {
                                     </Modal>
                                     {/* Delete Profile */}
                                     <Modal 
-                                    trigger={<button type="button" class="btn btn-outline-danger" id="profile-button" onClick={this.handleDeleteOpen} >Delete Profile</button>}
+                                    trigger={<Button color='red' type="button" class="btn btn-outline-danger" id="profile-button" onClick={this.handleDeleteOpen} >Delete Profile</Button>}
                                     open={this.state.modalDeleteOpen}
                                     onClose={this.handleDeleteClose}
                                     centered={true}
@@ -199,7 +217,7 @@ class ProfileContainer extends React.Component {
                             </Card.Content>
                             <Card.Content>
                             <div className='ui two buttons'>
-                                <Button basic color='red' onClick={() => this.props.delete(parseInt(user_player.id))}>
+                                <Button color='red' onClick={() => this.props.delete(parseInt(user_player.id))}>
                                 Unfavorite
                                 </Button>
                             </div>
@@ -250,7 +268,7 @@ class ProfileContainer extends React.Component {
                             </Card.Content>
                             <Card.Content>
                             <div className='ui two buttons'>
-                                <Button basic color='red' onClick={() => this.props.deleteTeam(parseInt(user_team.id))}>
+                                <Button color='red' onClick={() => this.props.deleteTeam(parseInt(user_team.id))}>
                                 Unfavorite
                                 </Button>
                             </div>
@@ -262,14 +280,11 @@ class ProfileContainer extends React.Component {
                      </Segment>
                     </Grid.Column>
                     </Grid.Row>
-                    {/* Bookmark Group */}
                     
                     
               </Grid>
               
             </div>
-            
-
 
         </div>
         )

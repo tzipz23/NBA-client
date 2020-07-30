@@ -20,7 +20,7 @@ class TeamCard extends React.Component {
         return(
         <div>
             <Card onClick={this.handleOpen}>
-                    <Image src={image} wrapped ui={false}/>
+                    <Image className='emage' src={image} wrapped ui={false}/>
                     <Card.Content>
                         <Card.Header>{name}</Card.Header>
                     <Card.Meta>

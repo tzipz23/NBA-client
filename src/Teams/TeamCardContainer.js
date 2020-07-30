@@ -3,6 +3,8 @@ import React from 'react'
 import { Grid, Segment, Dropdown} from 'semantic-ui-react'
 import TeamCard from './TeamCard'
 // import {Link, Route} from 'react-router-dom' 
+import kobe2 from '../images/kobe2.jpg'
+
 
 
 
@@ -35,7 +37,11 @@ class TeamCardContainer extends React.Component {
         return(
             <div className="nba-team-index">
                 {/* <h1>NBA teams</h1> */}
-                
+                <Segment>
+                    <h1> NBA<img src={'https://media.giphy.com/media/ZdfmJ0rlZccbM8o6qm/giphy.gif'} style={{height: '16rem', width: '10rem'}}></img> Teams </h1>
+                    {/* <Image src={process.env.PUBLIC_URL + '/SPN.png'} centered className="spn-daily-news"/> */}
+                </Segment>
+                <br />
                 <Grid relaxed='very' columns={1}>
                     <Grid.Column>
                         <h4>Select Team</h4>

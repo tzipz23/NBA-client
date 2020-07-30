@@ -35,28 +35,7 @@ class TeamShowPage extends React.Component {
         
         return(
         <div>
-            {/* <Grid.Column>
-                    <Search onSearchChange={this.onChangeSearch}/>
-            </Grid.Column>
-            {this.state.players.length === 0 ?
-                <Grid relaxed='very' columns={6}>
-                {this.props.team.players.map(player => {
-                    return (
-                        <Grid.Column>
-                        <PlayerCards player={player} key={player.id} favoritePlayer={this.props.favs}/>                        </Grid.Column>
-                    )
-                })}
-                </Grid>
-                :
-                <Grid relaxed='very' columns={6}>
-                {this.props.team.players.map(player => {
-                    return (
-                        <Grid.Column>
-                            <PlayerCards player={this.filterPlayer} key={player.id} favoritePlayer={this.props.favs}/>                        </Grid.Column>
-                    )
-                })}
-                </Grid>
-                } */}
+            {}
                 <Grid.Column>
                     <Segment>
                     <h1>{name} Players</h1>

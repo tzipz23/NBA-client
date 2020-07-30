@@ -1,6 +1,9 @@
 import React from 'react'
 import MediaResult from './MediaResult'
 import './MediaContainer.css'
+import { Segment } from 'semantic-ui-react'
+import kobe from '../images/kobe.jpg'
+
 
 
 class MediaContainer extends React.Component {
@@ -42,11 +45,15 @@ class MediaContainer extends React.Component {
     render(){
         
         return(
-            <div>
-                <div>
-                    <MediaResult results={this.state.results} />
+            <div className='MediaContainer'>
+                <Segment>
+                    <h1> NBA <img src={'https://media.giphy.com/media/5h5HJRTkYEvT2o6yvJ/giphy.gif'} style={{height: '12rem', width: '16rem'}}></img> News </h1>
+                    {/* <Image src={process.env.PUBLIC_URL + '/SPN.png'} centered className="spn-daily-news"/> */}
+                </Segment>
+                <br />
+                <MediaResult results={this.state.results} />
 
-                </div>
+                
             </div>
 
         )

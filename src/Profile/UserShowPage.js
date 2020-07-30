@@ -43,6 +43,15 @@ class UserShowPage extends React.Component {
           this.setState({followerList: [...data]})
         })
 
+        // Get their following
+        fetch(`http://localhost:3001/follow/${this.props.id}/following`)
+        .then(resp => resp.json())
+        .then(data => {
+        // debugger
+        //   let filtered = data.filter(player => player.user.id === this.props.user.id)
+          this.setState({followingList: [...data]})
+        })
+
         // console.log(this.props.id)
         fetch('http://localhost:3001/user_players',{
         method: "GET",
@@ -135,12 +144,12 @@ class UserShowPage extends React.Component {
         }
        
         return(
-        <div>
-            < ProfilePic />
+        <div className="profile-background" >
+            <ProfilePic />
             <br />
           
 
-            <div className="profile profile-background">
+            <div>
                 <Grid columns={2} divided >
                     <Grid.Row stretched>
                     <Grid.Column className="profile-user-card" width={6} >
@@ -152,12 +161,12 @@ class UserShowPage extends React.Component {
                                     <Card.Header>{this.state.user ? this.state.user.user_name : null}</Card.Header> 
                                     <br />
 
-                                    { isFollower ? <Button onClick={this.UnSubmitFollow}>UnFollow</Button>  :  <Button onClick={this.submitFollow}>Follow</Button> }
+                                    { isFollower ? <Button color="red" onClick={this.UnSubmitFollow}>UnFollow</Button>  :  <Button color="green" onClick={this.submitFollow}>Follow</Button> }
                                               
                                     
                                     </Card.Content>
                                     <Card.Content extra>
-                                    <Menu tabular>
+                                    {/* <Menu tabular>
                                                     <Menu.Item
                                                     name='Followers'
                                                     active={this.state.activeItem === 'Followers'}
@@ -169,8 +178,8 @@ class UserShowPage extends React.Component {
                                                     active={this.state.activeItem === 'Following'}
                                                     onClick={this.handleItemClick}
                                                     />
-                                                </Menu>
-                                         Follower {this.state.followerList.length} / Following
+                                                </Menu> */}
+                                         Followers {this.state.followerList.length} / Following {this.state.followingList.length}
 
 
                                     </Card.Content>

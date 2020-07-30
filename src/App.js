@@ -272,7 +272,7 @@ handleDeleteFavoriteTeam = (id) => {
           this.state.currentUser === null || localStorage.length === 0 ? 
           <LoginContainer loginUser={this.handleLogin} setUser={this.setUser}/>
           :
-          <Redirect to="/profile"/>
+          <Redirect to="/articles"/>
           )} />
           {/* About */}
           
@@ -303,7 +303,7 @@ handleDeleteFavoriteTeam = (id) => {
          
         </Switch>
         </div>
-        {/* <Footer /> */}
+        
       </div>
     );
   }
