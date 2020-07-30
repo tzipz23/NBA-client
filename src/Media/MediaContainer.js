@@ -47,7 +47,7 @@ class MediaContainer extends React.Component {
         return(
             <div className='MediaContainer'>
                 <Segment>
-                    <h1> NBA <img src={'https://media.giphy.com/media/5h5HJRTkYEvT2o6yvJ/giphy.gif'} style={{height: '12rem', width: '16rem'}}></img> News </h1>
+                    <h1> NBA <img src={'https://media.giphy.com/media/5h5HJRTkYEvT2o6yvJ/giphy.gif'} style={{height: '13rem', width: '16rem'}}></img> News </h1>
                     {/* <Image src={process.env.PUBLIC_URL + '/SPN.png'} centered className="spn-daily-news"/> */}
                 </Segment>
                 <br />

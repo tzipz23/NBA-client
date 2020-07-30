@@ -58,9 +58,12 @@
 
 .LoginContainer {
   margin-top: -22px;
-  background: url(https://media.giphy.com/media/xTiTnpcaFPfJAzaP8A/giphy.gif) no-repeat center center;
+  background: url(https://media.giphy.com/media/xTiTnpcaFPfJAzaP8A/giphy.gif) no-repeat center center #4e92cb;
+  height: 100%;
   background-size: cover;
-  color: black;
+  color: white;
+  background-color: black;
+  background-repeat: no-repeat;
   
   /* margin-bottom: 40px; */
   

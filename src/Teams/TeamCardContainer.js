@@ -38,7 +38,7 @@ class TeamCardContainer extends React.Component {
             <div className="nba-team-index">
                 {/* <h1>NBA teams</h1> */}
                 <Segment>
-                    <h1> NBA<img src={'https://media.giphy.com/media/ZdfmJ0rlZccbM8o6qm/giphy.gif'} style={{height: '16rem', width: '10rem'}}></img> Teams </h1>
+                    <h1> NBA<img src={'https://media.giphy.com/media/cKnwW6hcum6bvFSxKj/giphy.gif'} style={{height: '16rem', width: '16rem'}}></img> Teams </h1>
                     {/* <Image src={process.env.PUBLIC_URL + '/SPN.png'} centered className="spn-daily-news"/> */}
                 </Segment>
                 <br />

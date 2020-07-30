@@ -34,7 +34,7 @@ class Result extends React.Component {
             <div className="result">
             <div className="resultinfo"> <h1>{title}</h1></div> 
             <br />
-            <a href = {url}><img style={{height: '13rem', width: '19rem'}} alt="profile-news" className="profile-news-image" src={urlToImage} ></img></a>
+            <a href = {url}><img style={{height: '14rem', width: '21rem'}} alt="profile-news" className="profile-news-image" src={urlToImage} ></img></a>
              <br />
              <br />
              <div className="resultinfo"> <h3>{description}</h3></div>

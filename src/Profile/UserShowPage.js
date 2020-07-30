@@ -179,7 +179,7 @@ class UserShowPage extends React.Component {
                                                     onClick={this.handleItemClick}
                                                     />
                                                 </Menu> */}
-                                         Followers {this.state.followerList.length} / Following {this.state.followingList.length}
+                                         <h4>Followers</h4> ({this.state.followerList.length}) <h4>Following</h4> ({this.state.followingList.length})
 
 
                                     </Card.Content>
@@ -252,10 +252,9 @@ class UserShowPage extends React.Component {
                     
                     {/* : null} */}
                     </Segment>
-                    </Grid.Column>
+                    
                     <hr className="dividers hr-md-left-0"/>
                     {/* Column Three */}
-                    <Grid.Column width={10} style={{height: '35%'}}>
                         {/* <br /> */}
                         <Segment>
                         <h1 style={{fontFamily: "Impact"}}>Favorite Teams</h1>

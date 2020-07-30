@@ -127,7 +127,7 @@ class ProfileContainer extends React.Component {
                                                     onClick={this.handleItemClick}
                                                     />
                                                 </Menu> */}
-                <h4>Followers</h4> ( {this.state.followerList.length} )/ <h4> Following </h4>( {this.state.followingList.length} )
+                <h4>Followers</h4> ( {this.state.followerList.length} ) <h4> Following </h4>( {this.state.followingList.length} )
                                     </Card.Content>
                                     {/* Edit Profile */}
                                     <Modal 
@@ -161,7 +161,7 @@ class ProfileContainer extends React.Component {
                                         <Modal.Header>Delete Profile</Modal.Header>
                                         <Modal.Content>
                                         <p>
-                                            Are you sure you want to delete your profile?  We'll be sad to see you go!
+                                            Are you sure you want to delete your profile? 
                                         </p>
                                         </Modal.Content>
                                         <Modal.Actions>
@@ -227,10 +227,10 @@ class ProfileContainer extends React.Component {
                     </div>
                     }
                     </Segment>
-                    </Grid.Column>
+     
                     <hr className="dividers hr-md-left-0"/>
                     {/* Column Three */}
-                    <Grid.Column width={10} style={{height: '35%'}}>
+
                         {/* <br /> */}
                         <Segment>
                         <h1 style={{fontFamily: "Impact"}}>Favorite Teams</h1>
